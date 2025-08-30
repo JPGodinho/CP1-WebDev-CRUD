@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro De Jogadoras</title>
+    <link rel="stylesheet" href="./src/css/style.css">
+</head>
+<body>
+    <header>
+        <h1> <i class="fa-brands"></i>  Cadastro De Jogadoras</h1>
+    </header>
+
+    <form id="postForm" enctype="multipart/form-data">
+        <i class="fa-solid fa-pen"></i> <label for="postNome">Digite a jogadora:</label><br>
+        <input type="text" id="postNome" placeholder="Ex: Andressa Alves"><br><br>
+
+        <i class="fa-solid fa-list"></i> <label for="postPosicao">Posição:</label><br>
+        <select id="postPosicao">
+            <option value="" disabled selected>Selecione uma Posição</option>
+            <option value="Atacante">Atacante</option>
+            <option value="Meio-campo">Meio-campo</option>
+            <option value="Lateral Direito">Lateral Direito</option>
+            <option value="Lateral Esquerdo">Lateral Esquerdo</option>
+            <option value="Zagueira">Zagueira</option>
+            <option value="Goleira">Goleira</option>
+        </select><br><br>
+
+        <i class="fa-solid fa-pen"></i> <label for="postClube">Digite o clube:</label><br>
+        <input type="text" id="postClube" placeholder="Ex: Corinthians"><br><br>
+
+        <i class="fa-solid fa-image"></i> <label for="postImage">Selecione uma imagem:</label><br>
+        <input type="file" id="postImage" name="postImage" accept="image/*"><br><br>
+
+        <i class="fa-solid fa-pen"></i> <label for="postGol">Coloque a quantidade de gols:</label><br>
+        <input type="number" id="postGol" placeholder="Ex: 2"><br><br>
+
+        <i class="fa-solid fa-pen"></i> <label for="postAssist">Coloque a quantidade de assistências:</label><br>
+        <input type="number" id="postAssist" placeholder="Ex: 4"><br><br>
+
+        <i class="fa-solid fa-pen"></i> <label for="postJogos">Coloque a quantidade de jogos:</label><br>
+        <input type="number" id="postJogos" placeholder="Ex: 25"><br><br>
+
+        <button type="submit"><i class="fa-solid fa-bullhorn"></i> Postar</button>
+    </form>
+
+    <h1>Jogadoras Cadastradas</h1>
+
+    <div id="postList"></div>
+
+    <script src="./src/js/script.js"></script>
+</body>
+</html>

@@ -57,8 +57,8 @@ window.onload = function() {
 };
 
 function displayPosts() {
-    const postList = document.getElementById('postList');
-    postList.innerHTML = '';
+    const postCadastradas = document.getElementById('postCadastradas');
+    postCadastradas.innerHTML = '';
 
     jogadoras.forEach((pegaPost, index) => {
             const postElement = document.createElement('div');
@@ -75,7 +75,7 @@ function displayPosts() {
                 <button data-action="Apagar" data-index="${index}"><i class="fa-solid fa-eraser"></i> Apagar</button>
                 <hr style="margin:30px;">`;
                
-            postList.append(postElement);
+            postCadastradas.append(postElement);
         });
 }
 

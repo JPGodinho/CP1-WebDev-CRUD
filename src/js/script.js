@@ -51,6 +51,8 @@ let jogadoras = [
     }
 ]
 
+let editIndex = null;
+
 window.onload = function() {
     carregarPosts();
     displayJogadoras();
@@ -67,8 +69,18 @@ function handleClick(event){
         apagarCadastradas(index);
     }else if(action === "Editar"){
         editarPost(index);
+    }else if (action === "Favoritar") {
+        toggleFavorita(index);
     }
 }
+
+function toggleFavorita(index) {
+    jogadoras[index].favorita = !jogadoras[index].favorita;
+    
+    salvarCadastradas();
+    displayJogadoras();
+}
+
 
 function displayJogadoras() {
     const postCadastradas = document.getElementById('postCadastradas');
@@ -88,16 +100,25 @@ function displayJogadoras() {
                 }
   
             postElement.innerHTML = `
-                <p>Nome: ${pegaPost.nome}</p>
-                ${fotoSrc ? `<img src="${fotoSrc}" 
-                alt="${pegaPost.nome}" style="max-width:200px; max-height:200px; border-radius: 10%;">` : ''}
+                    <i 
+                        class="fa-star ${pegaPost.favorita ? 'fa-solid' : 'fa-regular'}" 
+                        data-action="Favoritar" 
+                        data-index="${index}"
+                        title="${pegaPost.favorita ? 'Desfavoritar' : 'Favoritar'}"
+                    ></i>
+            
+                    <p>Nome: ${pegaPost.nome}</p>
+                    ${fotoSrc ? `<img src="${fotoSrc}" 
+                    alt="${pegaPost.nome}" style="max-width:300px; max-height:200px; border-radius: 10%;">` : ''}
 
-                <p><em>Posição: ${pegaPost.posicao}</em></p> <p><em>Gols: ${pegaPost.gols}</em></p> <p><em>Assistências: ${pegaPost.assistencias}</em></p>
-                <p><em>Clube: ${pegaPost.clube}</em></p> <p><em>Jogos: ${pegaPost.jogos}</em></p>
-                <p>Favorita: ${pegaPost.favorita ? 'Sim' : 'Não'}</p>
-                <button data-action="Editar" data-index="${index}"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
-                <button data-action="Apagar" data-index="${index}"><i class="fa-solid fa-eraser"></i> Apagar</button>
-                <hr style="margin:30px;">`;
+                    <p><em>Posição: ${pegaPost.posicao}</em></p> <p><em>Gols: ${pegaPost.gols}</em></p> <p><em>Assistências: ${pegaPost.assistencias}</em></p>
+                    <p><em>Clube: ${pegaPost.clube}</em></p> <p><em>Jogos: ${pegaPost.jogos}</em></p>
+            
+                    <div class="card-actions">
+                        <button data-action="Editar" data-index="${index}"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
+                        <button data-action="Apagar" data-index="${index}"><i class="fa-solid fa-eraser"></i> Apagar</button>
+                    </div>
+                    <hr style="margin:30px;">`;
                
             postCadastradas.append(postElement);
         });
@@ -121,7 +142,6 @@ function addJogadoras(event){
     const postGol = document.getElementById('postGol').value.trim();
     const postAssist = document.getElementById('postAssist').value.trim();
     const postJogos = document.getElementById('postJogos').value.trim();
-    const postFavorita = document.getElementById('postFavorita')?.checked || false;
     const postDate = new Date().toLocaleString();
 
     if(!postNome || !postPosicao || !postClube || !postGol || !postAssist || !postJogos){
@@ -143,11 +163,12 @@ function addJogadoras(event){
             assistencias: postAssist,
             jogos: postJogos,
             posicao: postPosicao,
-            favorita: postFavorita,
+            favorita: false,
             date: postDate
         };
 
         if (editIndex !== null) {
+            jogadoraData.favorita = jogadoras[editIndex].favorita;
             jogadoras[editIndex] = jogadoraData;
             mostrarMensagem("Jogadora atualizada com sucesso!", "sucesso");
             
@@ -185,7 +206,7 @@ function mostrarMensagem(texto, tipo){
     }, 3000);
 }
 
-let editIndex = null;
+
 function editarPost(index){
     const jogadora = jogadoras[index];
 
@@ -195,7 +216,6 @@ function editarPost(index){
     document.getElementById('postGol').value = jogadora.gols; 
     document.getElementById('postAssist').value = jogadora.assistencias;
     document.getElementById('postJogos').value = jogadora.jogos;
-    document.getElementById('postFavorita').checked = jogadora.favorita;
     document.getElementById('postImage').value = '';
 
     editIndex = index;

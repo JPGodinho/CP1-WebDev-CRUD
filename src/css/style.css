@@ -1,3 +1,89 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f8fa;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.container {
+    width: 90%;
+    margin: 20px;
+}
+
+header {
+    background-color: #1da1f2;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+h1 {
+    font-size: 24px;
+}
+
+form {
+    margin-bottom: 50px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 15px 0;
+    border: 1px solid #ccd6dd;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 16px;
+   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+button {
+    background-color: #1da1f2;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0c7bcb;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background-color: #fff;
+    border: 1px solid #ccd6dd;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    padding: 15px;
+}
+#postCadastradas{
+   text-align: center;
+}
+
+.card-post{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
 #mensagem {
   margin-top: 10px;
   padding: 10px;
@@ -17,4 +103,27 @@
   background-color: #f8d7da;
   color: #721c24;
   border: 1px solid #f5c6cb;
+}
+.card-post {
+    position: relative;
+}
+.fa-star {
+    position: absolute;
+    top: 10px;
+    right: 0px;
+    font-size: 1.4em; 
+    cursor: pointer;  
+    transition: transform 0.2s ease;
+}
+.fa-star:hover {
+    transform: scale(1.2);
+}
+.fa-star.fa-solid {
+    color: #FFD700; 
+}
+.fa-star.fa-regular {
+    color: #ccc; 
+}
+.card-actions {
+    margin-top: 15px;
 }

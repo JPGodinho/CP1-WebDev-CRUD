@@ -53,12 +53,24 @@ let jogadoras = [
 
 window.onload = function() {
     carregarPosts();
-    displayPosts();
+    displayJogadoras();
 
     document.querySelector('#postJogadoras').addEventListener('submit', addJogadoras);
+    document.querySelector('#postCadastradas').addEventListener('click', handleClick);
 };
 
-function displayPosts() {
+function handleClick(event){
+    const action = event.target.dataset.action;
+    const index = event.target.dataset.index;
+
+    if(action === "Apagar"){
+        apagarCadastradas(index);
+    }else if(action === "Editar"){
+        editarPost(index);
+    }
+}
+
+function displayJogadoras() {
     const postCadastradas = document.getElementById('postCadastradas');
     postCadastradas.innerHTML = '';
 
@@ -140,9 +152,9 @@ function addJogadoras(event){
         };
 
         jogadoras.unshift(novaJogadora);
-        salvarPosts();
+        salvarCadastradas();
         document.querySelector('#postJogadoras').reset();
-        displayPosts();
+        displayJogadoras();
         mostrarMensagem("Jogadora cadastrada com sucesso!", "sucesso");
     }
 }
@@ -158,6 +170,15 @@ function mostrarMensagem(texto, tipo){
     }, 3000);
 }
 
-function salvarPosts(){
+function apagarCadastradas(index){
+    const confirmar = confirm("Tem certeza que deseja apagar esta jogadora?");
+    if(confirmar){
+        jogadoras.splice(index, 1);
+        salvarCadastradas();
+    }
+    displayJogadoras();
+}
+
+function salvarCadastradas(){
     localStorage.setItem("jogadoras", JSON.stringify(jogadoras))
 }

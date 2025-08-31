@@ -115,7 +115,8 @@ function addJogadoras(event){
 
     const postNome = document.getElementById('postNome').value.trim();
     const postPosicao = document.getElementById('postPosicao').value;
-    const postImage = document.getElementById('postImage').files[0]
+    const postImageInput = document.getElementById('postImage');
+    const postImage = postImageInput.files[0];
     const postClube = document.getElementById('postClube').value.trim();
     const postGol = document.getElementById('postGol').value.trim();
     const postAssist = document.getElementById('postAssist').value.trim();
@@ -128,21 +129,16 @@ function addJogadoras(event){
         return;
     }
 
-    if (postImage) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            salvarJogadora(e.target.result);
-        };
-        reader.readAsDataURL(postImage);
-    } else {
-        salvarJogadora(null);
-    }
+    const salvarJogadora = (fotoBase64) => {
+        let fotoFinal = fotoBase64;
+        if (editIndex !== null && !fotoBase64) {
+            fotoFinal = jogadoras[editIndex].foto;
+        }
 
-    function salvarJogadora(fotoBase64) {
-        const novaJogadora = {
+        const jogadoraData = {
             nome: postNome,
             clube: postClube,
-            foto: fotoBase64,
+            foto: fotoFinal,
             gols: postGol,
             assistencias: postAssist,
             jogos: postJogos,
@@ -151,11 +147,30 @@ function addJogadoras(event){
             date: postDate
         };
 
-        jogadoras.unshift(novaJogadora);
+        if (editIndex !== null) {
+            jogadoras[editIndex] = jogadoraData;
+            mostrarMensagem("Jogadora atualizada com sucesso!", "sucesso");
+            
+            document.getElementById('btnSalvar').innerHTML = '<i class="fa-solid fa-bullhorn"></i> Cadastrar Jogadora';
+            editIndex = null;
+        } else {
+            jogadoras.unshift(jogadoraData);
+            mostrarMensagem("Jogadora cadastrada com sucesso!", "sucesso");
+        }
+
         salvarCadastradas();
         document.querySelector('#postJogadoras').reset();
         displayJogadoras();
-        mostrarMensagem("Jogadora cadastrada com sucesso!", "sucesso");
+    };
+
+    if (postImage) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            salvarJogadora(e.target.result);
+        };
+        reader.readAsDataURL(postImage);
+    } else {
+        salvarJogadora(null);
     }
 }
 
@@ -170,13 +185,37 @@ function mostrarMensagem(texto, tipo){
     }, 3000);
 }
 
+let editIndex = null;
+function editarPost(index){
+    const jogadora = jogadoras[index];
+
+    document.getElementById('postNome').value = jogadora.nome;
+    document.getElementById('postClube').value = jogadora.clube;
+    document.getElementById('postPosicao').value = jogadora.posicao;
+    document.getElementById('postGol').value = jogadora.gols; 
+    document.getElementById('postAssist').value = jogadora.assistencias;
+    document.getElementById('postJogos').value = jogadora.jogos;
+    document.getElementById('postFavorita').checked = jogadora.favorita;
+    document.getElementById('postImage').value = '';
+
+    editIndex = index;
+
+    document.getElementById('btnSalvar').innerHTML = '<i class="fa-solid fa-save"></i> Salvar Edição';
+    
+    window.scrollTo(0, 0);
+}
+
+
+
 function apagarCadastradas(index){
     const confirmar = confirm("Tem certeza que deseja apagar esta jogadora?");
     if(confirmar){
         jogadoras.splice(index, 1);
         salvarCadastradas();
+        displayJogadoras(); 
+        
+        mostrarMensagem("Jogadora removida com sucesso!", "sucesso");
     }
-    displayJogadoras();
 }
 
 function salvarCadastradas(){

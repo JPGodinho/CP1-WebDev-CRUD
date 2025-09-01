@@ -61,7 +61,9 @@ window.onload = function() {
     document.querySelector('#postCadastradas').addEventListener('click', handleClick);
     document.querySelector('#procurarInput').addEventListener('input', handleSearch);
     document.querySelector('#filtroClube').addEventListener('change', handleSearch);
-atualizarFiltroClubes();
+    document.getElementById("ordenarNome").addEventListener("click", ordenarPorNome);
+    document.getElementById("ordenarPosicao").addEventListener("click", ordenarPorPosicao);
+    atualizarFiltroClubes();
 };
 
 function handleSearch(event) {
@@ -290,6 +292,22 @@ function editarPost(index){
     window.scrollTo(0, 0);
 }
 
+function ordenarPorNome() {
+    const jogadorasOrdenadas = [...jogadoras].sort((a, b) =>
+        a.nome.toLowerCase().localeCompare(b.nome.toLowerCase())
+    );
+    displayJogadoras(jogadorasOrdenadas);
+}
+
+function ordenarPorPosicao() {
+    const ordemPosicao = ["Goleira", "Lateral Direito", "Lateral Esquerdo", "Zagueira", "Meio-campo", "Atacante"];
+
+    const jogadorasOrdenadas = [...jogadoras].sort((a, b) =>
+        ordemPosicao.indexOf(a.posicao) - ordemPosicao.indexOf(b.posicao)
+    );
+
+    displayJogadoras(jogadorasOrdenadas);
+}
 
 
 function apagarCadastradas(index){

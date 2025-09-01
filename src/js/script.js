@@ -60,6 +60,8 @@ window.onload = function() {
     document.querySelector('#postJogadoras').addEventListener('submit', addJogadoras);
     document.querySelector('#postCadastradas').addEventListener('click', handleClick);
     document.querySelector('#procurarInput').addEventListener('input', handleSearch);
+    document.querySelector('#filtroClube').addEventListener('change', handleSearch);
+atualizarFiltroClubes();
 };
 
 function handleSearch(event) {
@@ -98,6 +100,35 @@ function handleClick(event){
         toggleFavorita(index);
     }
 }
+
+function atualizarFiltroClubes() {
+    const filtroClube = document.getElementById("filtroClube");
+    const clubes = [...new Set(jogadoras.map(j => j.clube))]; // pega clubes únicos
+
+    filtroClube.innerHTML = '<option value="">Todos os clubes</option>';
+    clubes.forEach(clube => {
+        filtroClube.innerHTML += `<option value="${clube}">${clube}</option>`;
+    });
+}
+
+function handleSearch() {
+    const textoBusca = document.getElementById("procurarInput").value.toLowerCase();
+    const clubeSelecionado = document.getElementById("filtroClube").value;
+
+    let jogadorasFiltradas = jogadoras.filter(jogadora => {
+        const nome = jogadora.nome.toLowerCase();
+        const posicao = jogadora.posicao.toLowerCase();
+        const clube = jogadora.clube;
+
+        const condicaoTexto = nome.includes(textoBusca) || posicao.includes(textoBusca);
+        const condicaoClube = clubeSelecionado === "" || clube === clubeSelecionado;
+
+        return condicaoTexto && condicaoClube;
+    });
+
+    displayJogadoras(jogadorasFiltradas);
+}
+
 
 function toggleFavorita(index) {
     jogadoras[index].favorita = !jogadoras[index].favorita;
@@ -214,6 +245,7 @@ function addJogadoras(event){
         salvarCadastradas();
         document.querySelector('#postJogadoras').reset();
         displayJogadoras(jogadoras);
+        atualizarFiltroClubes();
         document.querySelector('#procurarInput').value = '';
     };
 

@@ -55,15 +55,40 @@ let editIndex = null;
 
 window.onload = function() {
     carregarPosts();
-    displayJogadoras();
+    displayJogadoras(jogadoras);
 
     document.querySelector('#postJogadoras').addEventListener('submit', addJogadoras);
     document.querySelector('#postCadastradas').addEventListener('click', handleClick);
+    document.querySelector('#procurarInput').addEventListener('input', handleSearch);
 };
+
+function handleSearch(event) {
+    const infoProcurada = event.target.value.toLowerCase();
+
+    if(infoProcurada === ''){
+        displayJogadoras(jogadoras);
+        return;
+    }
+
+    const jogadorasFiltradas = jogadoras.filter(jogadora =>{
+        const nome = jogadora.nome.toLowerCase();
+        const posicao = jogadora.posicao.toLowerCase();
+        return nome.includes(infoProcurada) || posicao.includes(infoProcurada);
+    })
+
+    displayJogadoras(jogadorasFiltradas);
+}
 
 function handleClick(event){
     const action = event.target.dataset.action;
-    const index = event.target.dataset.index;
+    const card = event.target.closest('.card-post');
+
+    // Descobre o nome da jogadora naquele card específico
+    const nomeJogadora = card.querySelector('p').textContent.replace('Nome: ', '');
+
+    //Usa esse nome como um "RG" para encontrar a posição exata dela na lista principal de dados
+    const index = jogadoras.findIndex(jogadora => jogadora.nome === nomeJogadora);
+    if(index === -1) return; // Se não encontrar a jogadora para a função
 
     if(action === "Apagar"){
         apagarCadastradas(index);
@@ -76,19 +101,26 @@ function handleClick(event){
 
 function toggleFavorita(index) {
     jogadoras[index].favorita = !jogadoras[index].favorita;
-    
     salvarCadastradas();
-    displayJogadoras();
+
+    //Faz com que a tela não recarregue com a lista original quando é favoritada uma jogadora enquanto uma busca está ativa
+    document.querySelector('#procurarInput').dispatchEvent(new Event('input'));
 }
 
 
-function displayJogadoras() {
+function displayJogadoras(listaDeJogadoras) {
     const postCadastradas = document.getElementById('postCadastradas');
     postCadastradas.innerHTML = '';
 
-    jogadoras.forEach((pegaPost, index) => {
+    if(listaDeJogadoras.length === 0){
+        postCadastradas.innerHTML = '<p>Nenhuma jogadora encontrada.</p>';
+        return;
+    }
+
+    listaDeJogadoras.forEach(pegaPost => {
             const postElement = document.createElement('div');
             postElement.classList.add('card-post');
+            const index = jogadoras.findIndex(jogadora => jogadora.nome === pegaPost.nome);
 
             let fotoSrc = '';
                 if (pegaPost.foto) {
@@ -181,7 +213,8 @@ function addJogadoras(event){
 
         salvarCadastradas();
         document.querySelector('#postJogadoras').reset();
-        displayJogadoras();
+        displayJogadoras(jogadoras);
+        document.querySelector('#procurarInput').value = '';
     };
 
     if (postImage) {
@@ -232,9 +265,10 @@ function apagarCadastradas(index){
     if(confirmar){
         jogadoras.splice(index, 1);
         salvarCadastradas();
-        displayJogadoras(); 
+        displayJogadoras(jogadoras); 
         
         mostrarMensagem("Jogadora removida com sucesso!", "sucesso");
+        document.querySelector('#procurarInput').value = '';
     }
 }
 

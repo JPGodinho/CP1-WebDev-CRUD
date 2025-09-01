@@ -54,6 +54,8 @@ let jogadoras = [
 window.onload = function() {
     carregarPosts();
     displayPosts();
+
+    document.querySelector('#postJogadoras').addEventListener('submit', addJogadoras);
 };
 
 function displayPosts() {
@@ -63,10 +65,20 @@ function displayPosts() {
     jogadoras.forEach((pegaPost, index) => {
             const postElement = document.createElement('div');
             postElement.classList.add('card-post');
+
+            let fotoSrc = '';
+                if (pegaPost.foto) {
+                    if (pegaPost.foto.startsWith('data:image')) {
+                        fotoSrc = pegaPost.foto;
+                    } else {
+                        fotoSrc = `src/img/${pegaPost.foto}`;
+                    }
+                }
   
             postElement.innerHTML = `
                 <p>Nome: ${pegaPost.nome}</p>
-                ${pegaPost.foto ? `<img src="src/img/${pegaPost.foto}" alt="${pegaPost.nome}" style="width:150px; object-fit:cover; border-radius:8px;">` : ''}
+                ${fotoSrc ? `<img src="${fotoSrc}" 
+                alt="${pegaPost.nome}" style="max-width:200px; max-height:200px; border-radius: 10%;">` : ''}
 
                 <p><em>Posição: ${pegaPost.posicao}</em></p> <p><em>Gols: ${pegaPost.gols}</em></p> <p><em>Assistências: ${pegaPost.assistencias}</em></p>
                 <p><em>Clube: ${pegaPost.clube}</em></p> <p><em>Jogos: ${pegaPost.jogos}</em></p>
@@ -84,4 +96,68 @@ function carregarPosts(){
     if(postGuardados){
         jogadoras = JSON.parse(postGuardados)
     }
+}
+
+function addJogadoras(event){
+    event.preventDefault();
+
+    const postNome = document.getElementById('postNome').value.trim();
+    const postPosicao = document.getElementById('postPosicao').value;
+    const postImage = document.getElementById('postImage').files[0]
+    const postClube = document.getElementById('postClube').value.trim();
+    const postGol = document.getElementById('postGol').value.trim();
+    const postAssist = document.getElementById('postAssist').value.trim();
+    const postJogos = document.getElementById('postJogos').value.trim();
+    const postFavorita = document.getElementById('postFavorita')?.checked || false;
+    const postDate = new Date().toLocaleString();
+
+    if(!postNome || !postPosicao || !postClube || !postGol || !postAssist || !postJogos){
+        mostrarMensagem("Por favor, preencha todos os campos obrigatórios.", "erro");
+        return;
+    }
+
+    if (postImage) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            salvarJogadora(e.target.result);
+        };
+        reader.readAsDataURL(postImage);
+    } else {
+        salvarJogadora(null);
+    }
+
+    function salvarJogadora(fotoBase64) {
+        const novaJogadora = {
+            nome: postNome,
+            clube: postClube,
+            foto: fotoBase64,
+            gols: postGol,
+            assistencias: postAssist,
+            jogos: postJogos,
+            posicao: postPosicao,
+            favorita: postFavorita,
+            date: postDate
+        };
+
+        jogadoras.unshift(novaJogadora);
+        salvarPosts();
+        document.querySelector('#postJogadoras').reset();
+        displayPosts();
+        mostrarMensagem("Jogadora cadastrada com sucesso!", "sucesso");
+    }
+}
+
+function mostrarMensagem(texto, tipo){
+    const mensagem = document.getElementById('mensagem');
+    mensagem.textContent = texto;
+    mensagem.className = tipo; 
+    mensagem.style.display = 'block';
+
+    setTimeout(() => {
+        mensagem.style.display = 'none';
+    }, 3000);
+}
+
+function salvarPosts(){
+    localStorage.setItem("jogadoras", JSON.stringify(jogadoras))
 }

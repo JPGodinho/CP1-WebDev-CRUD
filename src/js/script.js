@@ -60,6 +60,8 @@ window.onload = function() {
     document.querySelector('#postJogadoras').addEventListener('submit', addJogadoras);
     document.querySelector('#postCadastradas').addEventListener('click', handleClick);
     document.querySelector('#procurarInput').addEventListener('input', handleSearch);
+    document.querySelector('#filtroClube').addEventListener('change', handleSearch);
+atualizarFiltroClubes();
 };
 
 function handleSearch(event) {

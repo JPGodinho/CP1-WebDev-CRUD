@@ -245,6 +245,7 @@ function addJogadoras(event){
         salvarCadastradas();
         document.querySelector('#postJogadoras').reset();
         displayJogadoras(jogadoras);
+        atualizarFiltroClubes();
         document.querySelector('#procurarInput').value = '';
     };
 

@@ -300,7 +300,7 @@ function ordenarPorNome() {
 }
 
 function ordenarPorPosicao() {
-    const ordemPosicao = ["Goleira", "Lateral Direito", "Lateral Esquerdo", "Zagueira", "Meio-campo", "Atacante"];
+    const ordemPosicao = ["Goleira", "Zagueira", "Lateral Direito", "Lateral Esquerdo", "Meio-campo", "Atacante"];
 
     const jogadorasOrdenadas = [...jogadoras].sort((a, b) =>
         ordemPosicao.indexOf(a.posicao) - ordemPosicao.indexOf(b.posicao)

@@ -9,14 +9,14 @@
 </head>
 <body>
     <header>
-        <h1> <i class="fa-brands"></i>  Cadastro De Jogadoras</h1>
+        <h1> <i class="fa-brands"></i> Cadastro De Jogadoras</h1>
     </header>
-
+ 
     <form id="postJogadoras" enctype="multipart/form-data">
-        <i class="fa-solid fa-pen"></i> <label for="postNome">Digite a jogadora:</label><br>
-        <input type="text" id="postNome" placeholder="Ex: Andressa Alves"><br><br>
-
-        <i class="fa-solid fa-list"></i> <label for="postPosicao">Posição:</label><br>
+        <label for="postNome"><i class="fa-solid fa-pen"></i> Digite a jogadora:</label>
+        <input type="text" id="postNome" placeholder="Ex: Andressa Alves">
+ 
+        <label for="postPosicao"><i class="fa-solid fa-list"></i> Posição:</label>
         <select id="postPosicao">
             <option value="" disabled selected>Selecione uma Posição</option>
             <option value="Atacante">Atacante</option>
@@ -25,34 +25,34 @@
             <option value="Lateral Esquerdo">Lateral Esquerdo</option>
             <option value="Zagueira">Zagueira</option>
             <option value="Goleira">Goleira</option>
-        </select><br><br>
-
-        <i class="fa-solid fa-pen"></i> <label for="postClube">Digite o clube:</label><br>
-        <input type="text" id="postClube" placeholder="Ex: Corinthians"><br><br>
-
-        <i class="fa-solid fa-image"></i> <label for="postImage">Selecione uma imagem:</label><br>
-        <input type="file" id="postImage" name="postImage" accept="image/*"><br><br>
-
-        <i class="fa-solid fa-pen"></i> <label for="postGol">Coloque a quantidade de gols:</label><br>
-        <input type="number" id="postGol" placeholder="Ex: 2"><br><br>
-
-        <i class="fa-solid fa-pen"></i> <label for="postAssist">Coloque a quantidade de assistências:</label><br>
-        <input type="number" id="postAssist" placeholder="Ex: 4"><br><br>
-
-        <i class="fa-solid fa-pen"></i> <label for="postJogos">Coloque a quantidade de jogos:</label><br>
-        <input type="number" id="postJogos" placeholder="Ex: 25"><br><br>
-
+        </select>
+ 
+        <label for="postClube"><i class="fa-solid fa-pen"></i> Digite o clube:</label>
+        <input type="text" id="postClube" placeholder="Ex: Corinthians">
+ 
+        <label for="postImage"><i class="fa-solid fa-image"></i> Selecione uma imagem:</label>
+        <input type="file" id="postImage" name="postImage" accept="image/*">
+ 
+        <label for="postGol"><i class="fa-solid fa-pen"></i> Coloque a quantidade de gols:</label>
+        <input type="number" id="postGol" placeholder="Ex: 2">
+ 
+        <label for="postAssist"><i class="fa-solid fa-pen"></i> Coloque a quantidade de assistências:</label>
+        <input type="number" id="postAssist" placeholder="Ex: 4">
+ 
+        <label for="postJogos"><i class="fa-solid fa-pen"></i> Coloque a quantidade de jogos:</label>
+        <input type="number" id="postJogos" placeholder="Ex: 25">
+ 
         <button type="submit" id="btnSalvar">
             <i class="fa-solid fa-bullhorn"></i> Cadastrar Jogadora
         </button>
     </form>
-
+ 
     <div id="mensagem" style="display:none;"></div>
-
+ 
     <div class="procurar">
-        <i class="fa-solid fa-search"></i>
+        <label for="procurarInput"><i class="fa-solid fa-search"></i></label>
         <input type="text" id="procurarInput" placeholder="Buscar por nome ou posição...">
-
+ 
         <select id="filtroClube">
             <option value="">Todos os clubes</option>
         </select>
@@ -61,11 +61,11 @@
         <button id="ordenarNome">Ordenar por Nome</button>
         <button id="ordenarPosicao">Ordenar por Posição</button>
     </div>
-
+ 
     <h1>Jogadoras Cadastradas</h1>
-
+ 
     <div id="postCadastradas"></div>
-
+ 
     <script src="./src/js/script.js"></script>
 </body>
 </html>
